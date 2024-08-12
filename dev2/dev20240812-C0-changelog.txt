@@ -1,1 +1,2 @@
 upgrade to new IDF / arduino version
+ more refinements

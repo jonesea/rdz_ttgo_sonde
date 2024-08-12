@@ -529,7 +529,7 @@ function bearing(latlng1, latlng2) {
     bearing = bearing < 0 ? bearing-360 : bearing;
     return Math.round(bearing);
 }
-upd.html 1341
+upd.html 1340
 <html><head>
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -538,14 +538,14 @@ upd.html 1341
 
 <form action="update.html" method="post"><p>Currently installed: %FULLNAMEID%</p>
 <p>
-Available master: <span id="masterDiv">(...checking...)</span>
+Available main: <span id="masterDiv">(...checking...)</span>
 
 <br>
-Available devel: <span id="develDiv">(...checking...)</span>
+Available dev2: <span id="develDiv">(...checking...)</span>
 
 </p>
 <input type="submit" name="main" value="Main-Update"></input><br>
-<input type="submit" name="dev" value="Dev-Update"><br>
+<input type="submit" name="dev2" value="Dev-Update"><br>
 <p>Note: If suffix is the same, update should work fully. If the number is different, update contains changes in the file system. A full re-flash is required to get all new features, but the update should not break anything. If the letter is different, a full re-flash is mandatory, update will not work</p></form>
 
 <script>
@@ -559,7 +559,7 @@ request.onload = function() {
 }
 request.send();
 let drequest = new XMLHttpRequest();
-drequest.open('GET', 'http://rdzsonde.mooo.com/dev/update-info.html');
+drequest.open('GET', 'http://rdzsonde.mooo.com/dev2/update-info.html');
 drequest.onload = function() {
   develInfo.innerHTML= drequest.response.replace(/<[^>]*>/g, '');;
 }
