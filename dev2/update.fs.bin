@@ -1,3 +1,91 @@
+sdfiles.html 2549
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rdzTTGOsonde SD card file browser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>SD Card Directory Listing</h1>
+    <table id="fileTable">
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Size (bytes)</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- File entries will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch JSON data from the server
+        fetch('/sd/files.json')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('fileTable').getElementsByTagName('tbody')[0];
+
+                // Iterate over the files and create table rows
+                data.forEach(file => {
+                    const row = document.createElement('tr');
+
+                    const nameCell = document.createElement('td');
+                    const sizeCell = document.createElement('td');
+                    const tsCell = document.createElement('td');
+
+                    // Create an anchor element for the filename
+                    const link = document.createElement('a');
+                    link.href = `/sd/${file.name}`;
+                    link.textContent = file.name;
+                    nameCell.appendChild(link);
+
+                    sizeCell.textContent = file.size;
+                    tsCell.textContent = file.ts;
+
+                    row.appendChild(nameCell);
+                    row.appendChild(sizeCell);
+                    row.appendChild(tsCell);
+
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching file list:', error);
+            });
+    </script>
+</body>
+</html>
+
 livemap.js 19784
 try {
   var check = $(document);
@@ -566,7 +654,7 @@ drequest.onload = function() {
 drequest.send();
 </script>
 </body></html>
-rdz.js 3064
+rdz.js 3063
 let stypes=new Map();
 stypes.set('4', 'RS41');
 stypes.set('R', 'RS92');
@@ -652,7 +740,6 @@ function qrgTable() {
   prep();
   footer();
 }
-
 map.html 1206
 <html>
 <head>
@@ -706,7 +793,7 @@ livemap.html 720
   <div id="map"></div>
 </body>
 </html>
-index.html 4368
+index.html 5007
 <!DOCTYPE html>
 <html>
 <head>
@@ -726,7 +813,7 @@ index.html 4368
 	<a href="#ctrl" onclick="selTab(event,'Control')" class="tablinks">Control</a>
 	<a href="#config" onclick="selTab(event,'Config')" class="tablinks">Config</a>
 	<a href="#wifi" onclick="selTab(event,'WiFi')" class="tablinks">WiFi</a>
-	<a href="#about" onclick="selTab(event,'About')" class="tablinks">About</a>
+	<a href="#about" onclick="selTab(event,'About');fetchStatus()" class="tablinks">About</a>
 	<a href="javascript:void(0);" class="icon" onclick="myFunction()">
 		<span class="hamburger"></span>
 	</a>
@@ -759,36 +846,59 @@ index.html 4368
 
 <div id="About" class="tabcontent">
 <div class="tci">
-   %VERSION_NAME%<br>
-   Copyright &copy; 2019-2024 by Hansi Reiser, DL9RDZ<br>
-   (version %VERSION_ID%)<br><br>
-
-   <a href="/upd.html">Check for update (requires TTGO internet connection via WiFi)</a><br><br>
-
-   with contributions by Vigor and Xavier (M20 support), 
-   <a href="https://github.com/LukePrior">Luke Prior</a> and <a href="https://github.com/oh3bsg">OH3BSG</a> (SondeHub support),
-   <a href="https://www.dl2mf.de/" target="_blank">Meinhard Guenther, DL2MF</a>,
-   <a href="https://github.com/bazjo">Johannes</a>, <a href="http://www.p1337.synology.me/dokuwiki/doku.php?id=public:wettersonden">Robert Stefanowicz</a>,
-   <a href="https://github.com/puspis">Josema</a>, and probably some more people I forgot to mention here.
-
-<br>
-   <br>
-   Autodetect info: %AUTODETECT_INFO%<br>
-   <br>
-    RS92 RINEX eph state: %EPHSTATE%<br>
-    <br>
+<div class="system-info">
+<h1>%VERSION_NAME% version %VERSION_ID%</h1>
+<p>Autodetect info: %AUTODETECT_INFO%</p>
+<p>Copyright &copy; 2019-2024 by Hansi Reiser, DL9RDZ and contributors</p>
+<p>
     This program is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public License as
+    modify it under the terms of the <a href="https://www.gnu.org/licenses/gpl-2.0.txt">GNU General Public License</a> as
     published by the Free Software Foundation; either version 2 of
-    the License, or (at your option) any later version.<br>
-    See <a href="https://www.gnu.org/licenses/gpl-2.0.txt">https://www.gnu.org/licenses/gpl-2.0.txt</a>
-    for details.
+    the License, or (at your option) any later version. 
+    See <a href="https://github.com/dl9rdz/rdz_ttgo_sonde/">https://github.com/dl9rdz/rdz_ttgo_sonde/</a>
+    for details, contributors, and license exceptions of third-party components.
+</p>
+<p><a href="/upd.html">Check for update (requires TTGO internet connection via WiFi)</a></p>
+<table class="status-table">
+<thead>
+ <tr>
+ <th>Component</th><th>Status<button id="refresh-button" onclick="fetchStatus()">[refresh]</button></th>
+ </tr>
+</thead>
+<tbody id="status-body">
+</tbody>
+</table>
+</div>
 </div>
 <div class="footer"><span></span><span class="ttgoinfo">rdzTTGOserver %VERSION_ID%</span></div>
-</div>
 
 </div>
 <script>
+function fetchStatus() {
+  fetch('/status.json')
+      .then(response => response.json())
+      .then(data => {
+          const statusBody = document.getElementById('status-body');
+          statusBody.innerHTML = ''; // Clear existing rows
+    
+          for (const [subsystem, status] of Object.entries(data)) {
+              const row = document.createElement('tr');
+
+              const subsystemCell = document.createElement('td');
+              subsystemCell.textContent = subsystem;
+              row.appendChild(subsystemCell);
+    
+              const statusCell = document.createElement('td');
+              statusCell.innerHTML = status; 
+              row.appendChild(statusCell);
+    
+              statusBody.appendChild(row);
+          }
+      })
+      .catch(error => {
+          console.error('Error fetching subsystem status:', error);
+      });
+} 
 function selTab(evt, id) {
 	var i, tabcontent, tablinks;
 	tabcontent=document.getElementsByClassName("tabcontent");
@@ -831,11 +941,46 @@ document.getElementById("defaultTab").click();
 </body>
 </html>
 
-style.css 7441
+style.css 8014
 body, html {
 	height: 100%;
 	margin: 0;
 	font-family: Arial;
+}
+
+.system-info {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+.system-info p {
+    margin: 8px 0;
+}
+.system-info h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.status-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.status-table th, .status-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+    vertical-align: top;
+}
+.status-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+#refresh-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+#refresh-button:hover {
+    color: #007BFF;
 }
 
 .active, .cfgheader:hover {
@@ -927,14 +1072,11 @@ html {
   font-family: Helvetica;
   display: inline-block;
   margin: 0px auto;
-  text-align: center;
+  text-align: left;
 }
 h1{
   color: #0F3376;
   font-size: 24px
-}
-p{
-  font-size: 1.5rem;
 }
 
 .button2 {
@@ -1182,6 +1324,7 @@ p{
     text-align: left;
   }
 }
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #333;
@@ -1224,7 +1367,7 @@ p{
     background: grey !important;
   }
 }
-cfg.js 8061
+cfg.js 8396
 var cfgs = [
 [ "", "General configuration", "https://github.com/dl9rdz/rdz_ttgo_sonde/wiki/General-configuration" ],
 [ "wifi", "Wifi mode (0=off, 1=client, 2=AP, 3=client or AP, 4=client-noscan)" ],
@@ -1301,6 +1444,13 @@ var cfgs = [
 [ "sondehub.fiinterval", "Import frequency (minutes, &geq; 5)" ],
 [ "sondehub.fimaxdist", "Import maximum distance (km, &leq; 700)" ],
 [ "sondehub.fimaxage", "Import maximum age (hours, &leq; 48)" ],
+[ "", "SD card logger configuration", "https://github.com/dl9rdz/rdz_ttgo_sonde/wiki/SDcard-configuration"],
+[ "sd.cs", "SD card CS" ],
+[ "sd.miso", "SD card MISO/DI" ],
+[ "sd.mosi", "SD card MOSI/DO" ],
+[ "sd.clk", "SD card CLK" ],
+[ "sd.sync", "SD card sync interval [s]" ],
+[ "sd.name", "SD card naming (0=by sondeid, 1=by day)" ],
 [ "", "Hardware configuration (requires reboot)", "https://github.com/dl9rdz/rdz_ttgo_sonde/wiki/Hardware-configuration"],
 [ "disptype", "Display type (0=OLED/SSD1306, 1=ILI9225, 2=OLED/SH1106, 3=ILI9341, 4=ILI9342, 5=ST7789)"],
 [ "oled_sda", "OLED SDA/TFT SDA"],
