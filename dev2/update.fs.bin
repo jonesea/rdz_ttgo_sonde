@@ -1401,7 +1401,7 @@ h1{
     background: grey !important;
   }
 }
-cfg.js 8409
+cfg.js 8410
 var cfgs = [
 [ "", "General configuration", "https://github.com/dl9rdz/rdz_ttgo_sonde/wiki/General-configuration" ],
 [ "wifi", "Wifi mode (0=off, 1=client, 2=AP, 3=client or AP, 4=client-noscan)" ],
@@ -1443,7 +1443,7 @@ var cfgs = [
 [ "kisstnc.active", "KISS TNC (port 14590) (needs reboot)"],
 [ "axudp.active", "AXUDP active"],
 [ "axudp.host", "AXUDP host[:port]"],
-[ "axudp.highrate", "Rate limit"],
+[ "axudp.ratelimit", "Rate limit"],
 [ "tcp.active", "APRS TCP active"],
 [ "tcp.timeout", "APRS TCP timeout [s] (0=off, 25=on)"],
 [ "tcp.host", "APRS TCP host[:port] (default port 14580)"],
