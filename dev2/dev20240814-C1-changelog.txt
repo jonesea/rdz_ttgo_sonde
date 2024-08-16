@@ -2,3 +2,4 @@ more status tab refinements
 minor bug fixes
 minor fixes
 SH connector reorg -> make it asynchronous
+; fixed
