@@ -1,0 +1,1 @@
+add V_batt in status, gps fix, pin check in config form
