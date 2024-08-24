@@ -1,1 +1,2 @@
 WiFi enhancement: wait for IP address
+fix message about space on SD card
