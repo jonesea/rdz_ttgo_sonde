@@ -1,0 +1,1 @@
+more GPS test code -- last nmea on status
