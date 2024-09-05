@@ -1401,7 +1401,7 @@ h1{
     background: grey !important;
   }
 }
-cfg.js 11015
+cfg.js 11080
 var cfgs = [
 [ "", "General configuration", "https://github.com/dl9rdz/rdz_ttgo_sonde/wiki/General-configuration" ],
 [ "wifi", "Wifi mode (0=off, 1=client, 2=AP, 3=client or AP, 4=client-noscan)" ],
@@ -1412,6 +1412,7 @@ var cfgs = [
 [ "rxlat", "Receiver fixed latitude"],
 [ "rxlon", "Receiver fixed longitude"],
 [ "rxalt", "Receiver fixed altitude"],
+[ "b2mute", "Button 2/medium press mutes LED/Buzzer (minutes)"],
 [ "", "OLED/TFT display configuration", "https://github.com/dl9rdz/rdz_ttgo_sonde/wiki/Display-configuration" ],
 [ "screenfile", "Screen config (0=automatic; 1-5=predefined; other=custom)" ],
 [ "display", "Display screens (scan, default, ...)" ],
