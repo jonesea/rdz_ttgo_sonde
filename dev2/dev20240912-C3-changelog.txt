@@ -1,1 +1,2 @@
  push script enhancements
+undo accidental wifi default mode change
