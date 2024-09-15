@@ -8,8 +8,9 @@
     {
       "chipFamily": "ESP32",
       "parts": [
-        { "path": "dev20240913-C3-full.bin", "offset": 0x1000 }
+        { "path": "dev20240913-C3-full.bin", "offset": 4096 }
       ]
     }
   ]
 }
+
