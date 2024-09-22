@@ -1,7 +1,7 @@
 {
   "name": "rdzTTGOsonde",
   "version": "dev20240913",
-  "funding_url": "https://esphome.io/guides/supporters.html",
+  "funding_url": "https://buymeacoffee.com/rdzsonde",
   "new_install_prompt_erase": false,
   "new_install_improv_wait_time": 3,
   "builds": [
