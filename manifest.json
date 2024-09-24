@@ -9,14 +9,14 @@
       "chipFamily": "ESP32",
       "fwversion": "dev20240924",
       "parts": [
-        { "path": "dev20240924-C3-full.bin", "offset": 4096 }
+        { "path": "dev2/dev20240924-C3-full.bin", "offset": 4096 }
       ]
     },
     {
       "chipFamily": "ESP32",
       "fwversion": "main0.98",
       "parts": [
-        { "path": "main0.98-C3-full.bin", "offset": 4096 }
+        { "path": "main/main0.98-C3-full.bin", "offset": 4096 }
       ]
     }
   ]
